@@ -46,14 +46,16 @@ struct HomeView: View {
                             NavigationLink(destination: DetailView(item: item)) {
                                 HStack {
                                     Text(item.name)
-                                        .foregroundColor(item.category == .other ? .green : .red)
+                                        .foregroundColor(item.isPastBestByDate ? .red : .black)
                                     Spacer()
                                     Text(item.purchaseDate.getMediumFormat())
                                         .font(.subheadline)
                                     Divider()
-                                    Image(systemName: "timer")
-                                        .foregroundColor(item.life != nil ? .green : .gray)
-                                        .font(.title)
+                                    if !item.isPastBestByDate {
+                                        Image(systemName: "timer")
+                                            .foregroundColor(item.life != nil ? .green : .gray)
+                                            .font(.title)
+                                    }
                                 }
                             }
                         }

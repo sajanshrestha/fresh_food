@@ -62,7 +62,6 @@ class NotificationPublisher: NSObject, ObservableObject {
 extension NotificationPublisher: NotificationScheduler, UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print("notification will be presented")
         completionHandler([.alert, .sound, .badge])
     }
     

@@ -79,7 +79,7 @@ extension DetailView {
     }
     
     func scheduleNotification() {
-        let notification = Notification(title: "Food Alert", subtitle: nil, body: "\(item.name) is going bad", timeInterval: quantities[selected])
+        let notification = Notification(title: "Food Alert", subtitle: nil, body: "\(item.name) is going bad", timeInterval: quantities[selected].getNumberOfSeconds())
         publisher.scheduleNotification(withIdentifier: "Food Notification", notification: notification)
     }
 }

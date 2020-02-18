@@ -12,9 +12,6 @@ struct AddItemView: View {
     
     @Binding var name: String
     @Binding var quantity: String
-    @State private var selected = 2
-    var items = ["Fruit", "Vegetable", "Other"]
-    
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -29,11 +26,6 @@ struct AddItemView: View {
             TextField("", text: $quantity)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .keyboardType(.numberPad)
-            Picker(selection: $selected, label: Text("")) {
-                ForEach(0..<items.count, id: \.self) {
-                    Text(self.items[$0])
-                }
-            }.pickerStyle(SegmentedPickerStyle())
         }
     }
 }

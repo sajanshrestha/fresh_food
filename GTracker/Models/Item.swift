@@ -22,4 +22,12 @@ struct Item: Identifiable, Codable {
     var purchaseDate: Date
     var life: Int?
     var category: Category
+    
+    var isPastBestByDate: Bool {
+        guard let bestDays = life else { return false}
+        
+        let pastByDate = purchaseDate.addingTimeInterval(TimeInterval(bestDays.getNumberOfSeconds()))
+        
+        return Date() > pastByDate
+    }
 }
