@@ -20,13 +20,13 @@ struct Item: Identifiable, Codable {
     var name: String
     var quantity: Int
     var purchaseDate: Date
-    var life: Int?
+    var bestByDate: Int?
     var category: Category
     
     var isPastBestByDate: Bool {
-        guard let bestDays = life else { return false}
+        guard let bestByDate = bestByDate else { return false }
         
-        let pastByDate = purchaseDate.addingTimeInterval(TimeInterval(bestDays.getNumberOfSeconds()))
+        let pastByDate = purchaseDate.addingTimeInterval(TimeInterval(bestByDate.getNumberOfSeconds()))
         
         return Date() > pastByDate
     }

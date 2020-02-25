@@ -31,7 +31,7 @@ struct HomeView: View {
                             
                             Button(action: {
                                 
-                                let item = Item(name: self.itemName, quantity: Int(self.quantity) ?? 0, purchaseDate: Date(), life: nil, category: .other)
+                                let item = Item(name: self.itemName, quantity: Int(self.quantity) ?? 0, purchaseDate: Date(), bestByDate: nil, category: .other)
                                 self.addAnItem(item: item)
                                 
                             }, label: {
@@ -46,16 +46,15 @@ struct HomeView: View {
                             NavigationLink(destination: DetailView(item: item)) {
                                 HStack {
                                     Text(item.name)
-                                        .foregroundColor(item.isPastBestByDate ? .red : .black)
+                                        .foregroundColor(item.isPastBestByDate ? .red : .yellow)
                                     Spacer()
                                     Text(item.purchaseDate.getMediumFormat())
                                         .font(.subheadline)
                                     Divider()
-                                    if !item.isPastBestByDate {
-                                        Image(systemName: "timer")
-                                            .foregroundColor(item.life != nil ? .green : .gray)
-                                            .font(.title)
-                                    }
+                                    
+                                    Image(systemName: "timer")
+                                        .foregroundColor(item.bestByDate == nil ? .gray : .green)
+                                        .font(.title)
                                 }
                             }
                         }

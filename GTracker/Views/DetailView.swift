@@ -39,7 +39,7 @@ struct DetailView: View {
                     PickerView(selected: $selected, list: quantities)
                 }
                 
-                UpdateButton(showPickerView: $showQuantityPicker, updateTitle: "Update") {
+                UpdateButton(showPickerView: $showQuantityPicker, updateTitle: "Update Quantity") {
                     self.updateQuantity()
                 }
                 
@@ -47,12 +47,17 @@ struct DetailView: View {
                     PickerView(selected: $selected, list: numberOfDays)
                 }
                 
-                UpdateButton(showPickerView: $showEdibleNumberOfDaysPicker, updateTitle: "Set it's edible life!") {
-                    self.setEdibleNumberOfDays()
-                    self.scheduleNotification()
-                    withAnimation(Animation.easeInOut(duration: 0.6)) {
-                        self.edibleLifeSet = true
+                if item.bestByDate == nil {
+                    UpdateButton(showPickerView: $showEdibleNumberOfDaysPicker, updateTitle: "Set Best By Date") {
+                        self.setEdibleNumberOfDays()
+                        self.scheduleNotification()
+                        withAnimation(Animation.easeInOut(duration: 0.6)) {
+                            self.edibleLifeSet = true
+                        }
                     }
+                }
+                else {
+                    Text("Best by date has been set for this item.")
                 }
                 
                 if edibleLifeSet {
@@ -74,12 +79,14 @@ extension DetailView {
     }
     
     func setEdibleNumberOfDays() {
-        let newItem = Item(name: item.name, quantity: item.quantity, purchaseDate: item.purchaseDate, life: numberOfDays[selected], category: item.category)
+        let newItem = Item(name: item.name, quantity: item.quantity, purchaseDate: item.purchaseDate, bestByDate: numberOfDays[selected], category: item.category)
         groceryTracker.updateItem(item: item, with: newItem)
     }
     
+    // if the item has life, then the notification is set
     func scheduleNotification() {
-        let notification = Notification(title: "Food Alert", subtitle: nil, body: "\(item.name) is going bad", timeInterval: quantities[selected].getNumberOfSeconds())
+        guard let bestByDays = item.bestByDate else { return }
+        let notification = Notification(title: "Food Alert", subtitle: nil, body: "\(item.name) is going bad", timeInterval: bestByDays.getNumberOfSeconds())
         publisher.scheduleNotification(withIdentifier: "Food Notification", notification: notification)
     }
 }
